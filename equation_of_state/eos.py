@@ -7,26 +7,30 @@ import numpy as np
 
 
 def murnaghan_fit(volumes: np.ndarray, energies: np.ndarray):
-    """
-    This function takes two arguments in np.ndarray format, 
-    performs a Murnaghan EoS fit, and returns 
-    E_eq, V_eq, B_eq, Bp_eq, V_fit, E_fit.
+    """ This function performs a Murnaghan EoS fit, and returns 
+    the equilibrium properties.
 
-    E_eq ... equilibrium energy.
-    V_eq ... equilibrium volume.
-    B_eq ... equilibrium bulk modulus.
-    Bp_eq .. pressure derivative of the equilibrium bulk modulus.
+    Parameters
+    ----------
+    volumes : np.ndarray
+        A sequence of volumes.
+    energies : np.ndarray
+        A sequence of energies, corresponding to each volume.
 
-    V_fit and E_fit are generated volumes and with the fitted
-    values E_eq, V_eq, B_eq, Bp_eq calculated corresponding energies.
-    V_fit and E_fit can then be used for plotting the fit. 
+    Returns
+    -------
+    Tuple
+        E_eq, V_eq, B_eq, Bp_eq, V_fit, E_fit 
+
+        V_fit and E_fit are the volumes generated for the fit and 
+        the energies calculated with them. They can be used to plot the fitted curve. 
     """
 
     # Defining the Murnaghan equation of state function
     def murnaghan_eos(V, E0, V0, B0, Bp):
         return E0 + B0*V0*(1/(Bp*(Bp-1))*(V/V0)**(1-Bp) + V/(Bp*V0) - 1/(Bp-1))
 
-    # Finding V0 and E0
+    # Finding initial guesses for V0 and E0
     E0 = np.min(energies)
     min_index = np.argmin(energies)
     V0 = volumes[min_index]
@@ -58,19 +62,23 @@ def murnaghan_fit(volumes: np.ndarray, energies: np.ndarray):
 
 
 def birch_murnaghan_fit(volumes: np.ndarray, energies: np.ndarray):
-    """
-    This function takes two arguments in np.ndarray format, 
-    performs a Birch-Murnaghan EoS fit, and returns 
-    E_eq, V_eq, B_eq, Bp_eq, V_fit, E_fit.
+    """ This function performs a Birch-Murnaghan EoS fit, and returns 
+    the equilibrium properties.
 
-    E_eq ... equilibrium energy.
-    V_eq ... equilibrium volume.
-    B_eq ... equilibrium bulk modulus.
-    Bp_eq .. pressure derivative of the equilibrium bulk modulus.
+    Parameters
+    ----------
+    volumes : np.ndarray
+        A sequence of volumes.
+    energies : np.ndarray
+        A sequence of energies, corresponding to each volume.
 
-    V_fit and E_fit are generated volumes and with the fitted
-    values E_eq, V_eq, B_eq, Bp_eq calculated corresponding energies.
-    V_fit and E_fit can then be used for plotting the fit. 
+    Returns
+    -------
+    Tuple
+        E_eq, V_eq, B_eq, Bp_eq, V_fit, E_fit 
+
+        V_fit and E_fit are the volumes generated for the fit and 
+        the energies calculated with them. They can be used to plot the fitted curve. 
     """
 
     # Defining the Birch-Murnaghan equation of state function
@@ -109,21 +117,26 @@ def birch_murnaghan_fit(volumes: np.ndarray, energies: np.ndarray):
 
 
 def polynomial_fit(volumes: np.ndarray, energies: np.ndarray, order=3):
-    """
-    This function takes two arguments in np.ndarray format, 
-    performs a polynomial fit, and returns 
-    E_eq, V_eq, B_eq, V_fit, E_fit.
-    The third parameter is the order of the polynomial and is optional.
-    The order should be higher than 2, because the E-V curves 
-    typically don't have a quadratic shape! 
+    """ This function performs a polynomial fit, and returns 
+    the equilibrium properties.
 
-    E_eq ... equilibrium energy.
-    V_eq ... equilibrium volume.
-    B_eq ... equilibrium bulk modulus.
+    Parameters
+    ----------
+    volumes : np.ndarray
+        A sequence of volumes.
+    energies : np.ndarray
+        A sequence of energies, corresponding to each volume.
+    order : int
+        Order of the polynomial. Should be higher than 2, because
+        the E-V curves typically don't have a quadratic shape! 
 
-    V_fit and E_fit are generated volumes and with the fitted
-    values E_eq, V_eq, B_eq, Bp_eq calculated corresponding energies.
-    V_fit and E_fit can then be used for plotting the fit. 
+    Returns
+    -------
+    Tuple
+        E_eq, V_eq, B_eq, V_fit, E_fit 
+
+        V_fit and E_fit are the volumes generated for the fit and 
+        the energies calculated with them. They can be used to plot the fitted curve. 
     """
 
     # Extract the smallest and the biggest volume
